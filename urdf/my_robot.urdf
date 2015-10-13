@@ -1,0 +1,39 @@
+<robot name="my_robot">
+    <link name="link1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="1 .25 .25"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="0.8 0.8 0 1"/>
+            </material>
+        </visual>
+    </link>       
+    <link name="link2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="1 .25 .25"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>   
+    <link name="link3" />  
+    <joint name="joint1" type="continuous">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin xyz="1 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    
+    <joint name="joint2" type="continuous">
+        <parent link="link2"/>
+        <child link="link3" />
+        <origin xyz="1 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    
+</robot>
