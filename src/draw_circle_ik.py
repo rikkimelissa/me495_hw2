@@ -12,8 +12,8 @@ def draw_circle_ik():
     rate = rospy.Rate(50)
     joint_state = JointState()
     joint_state.header.stamp = rospy.Time.now()
-    joint_state.name = ['joint1','joint2']
-    joint_state.position = [0,0]
+    joint_state.name = ['joint1','joint2','joint3']
+    joint_state.position = [0,0,0]
     joint_state.velocity = []
     joint_state.effort = []
 	
@@ -22,8 +22,10 @@ def draw_circle_ik():
 
         # Calculate desired x and y positions
         t = rospy.get_time()
-        x = .5*cos(2*pi*t/5) + 1.25
-        y = .5*sin(2*pi*t/5)
+        p = rospy.get_param('~/controller/period')
+        rospy.loginfo(p)
+        x = .5*cos(2*pi*t/p) + 1.25
+        y = .5*sin(2*pi*t/p)
         
         # Inverse kinematics
         l1 = 1
@@ -38,7 +40,7 @@ def draw_circle_ik():
 		
         # Publish angles
         joint_state.header.stamp = rospy.Time.now()
-	joint_state.position = [th1,th2]
+	joint_state.position = [th1,th2,0]
 #	rospy.loginfo(joint_state)
 	pub.publish(joint_state)
         rate.sleep()

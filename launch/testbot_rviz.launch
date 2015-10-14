@@ -1,10 +1,23 @@
 <launch>
     <param name="robot_description" textfile="$(find hw2)/urdf/my_robot.urdf" />
-<!--    <param name="use_gui" value="true"/>-->
-<!--    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>-->
-    <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find hw2)/launch/two-link.rviz" />
-    <node name="controller" pkg="hw2" type="draw_circle_ik.py" output="screen" />
-    <node name="animator" pkg="hw2" type="animate.py" output="screen" />
+    <arg name="use_gui" default="false"/>
+    <arg name="use_ik" default="false"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="period" default="5"/>
+<!--    <param name="period" value="%(arg period)"/>-->
+    <group if="$(arg use_gui)">
+        <param name="use_gui" value="true"/>
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    </group>
+    <group if="$(arg use_rviz)">
+        <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find hw2)/launch/two-link.rviz" />
+    </group>
+    <group if="$(arg use_ik)">
+        <node name="controller" pkg="hw2" type="draw_circle_ik.py" output="screen">
+            <param name="period" value="$(arg period)"/>
+        </node>
+        <node name="animator" pkg="hw2" type="animate.py" output="screen" />
+    </group>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
         <param name="publish_frequency" value="25"/>
     </node>

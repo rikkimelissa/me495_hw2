@@ -22,6 +22,8 @@
             </material>
         </visual>
     </link>   
+    <link name="link4">
+    </link>
     <joint name="joint1" type="continuous">
         <parent link="link1"/>
         <child link="link2"/>
@@ -32,6 +34,12 @@
     <joint name="joint2" type="continuous">
         <parent link="link2"/>
         <child link="link3" />
+        <origin xyz="1 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+    <joint name="joint3" type="continuous">
+        <parent link="link3"/>
+        <child link="link4" />
         <origin xyz="1 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" />
     </joint>

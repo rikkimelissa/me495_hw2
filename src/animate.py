@@ -4,13 +4,13 @@ import rospy
 import roslib
 from math import sqrt, pi, acos, atan2, cos, sin
 import tf
-
+import copy
 # I plotting the marker array with code from this answer: 
 # http://answers.ros.org/question/11135/plotting-a-markerarray-of-spheres-with-rviz/
 
 def animate():
 
-    pub = rospy.Publisher('visualization_marker', Marker, queue_size = 10)    
+    pub = rospy.Publisher('visualization_marker_array', MarkerArray, queue_size = 10)    
     rospy.init_node('marker_node')
     listener = tf.TransformListener()
     rospy.loginfo('setup')
@@ -27,14 +27,15 @@ def animate():
     marker.scale.y = .05
     marker.scale.z = .05
     marker.header.frame_id = "/link1"
-    marker.header.stamp = rospy.Time.now()
+ #   marker.header.stamp = rospy.Time.now()
     marker.action = Marker.ADD
     count = 0
-    MARKERS_MAX = 100
+    MARKERS_MAX = 50
+    id = 0
     	
     while not rospy.is_shutdown():
         try:
-            (trans,rot) = listener.lookupTransform('/link1','/link3',rospy.Time(0))
+            (trans,rot) = listener.lookupTransform('/link1','/link4',rospy.Time(0))
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             continue
 
@@ -49,15 +50,16 @@ def animate():
         if (count > MARKERS_MAX):
             markerArray.markers.pop(0)
         
-        markerArray.markers.append(marker)
-        rospy.loginfo(markerArray)
+        mtmp = copy.deepcopy(marker)
+        markerArray.markers.append(mtmp)
+     #   rospy.loginfo(markerArray) 
 
         id = 0
         for m in markerArray.markers:
             m.id = id
             id +=1
 
-        pub.publish(marker)
+        pub.publish(markerArray)
         count += 1
         rate.sleep()
 
