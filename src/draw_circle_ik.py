@@ -8,7 +8,7 @@ from sensor_msgs.msg import JointState
 def draw_circle_ik():
 
     pub = rospy.Publisher('joint_states', JointState, queue_size = 10)    
-    rospy.init_node('ik', anonymous=True)
+    rospy.init_node('ik')
     rate = rospy.Rate(50)
     joint_state = JointState()
     joint_state.header.stamp = rospy.Time.now()
