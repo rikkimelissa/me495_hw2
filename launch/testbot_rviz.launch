@@ -4,7 +4,6 @@
     <arg name="use_ik" default="false"/>
     <arg name="use_rviz" default="true"/>
     <arg name="period" default="5"/>
-<!--    <param name="period" value="%(arg period)"/>-->
     <group if="$(arg use_gui)">
         <param name="use_gui" value="true"/>
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>

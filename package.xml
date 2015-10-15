@@ -12,7 +12,7 @@
   <build_depend>roscpp</build_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>visualization_msgs</build_depend>
-  <build_depend>tf</tf>
+  <build_depend>tf</build_depend>
   <run_depend>rospy</run_depend>
   <run_depend>message_runtime</run_depend>
   <run_depend>visualization_msgs</run_depend>
