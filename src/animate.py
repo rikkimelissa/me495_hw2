@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from visualization_msgs.msg import Marker, MarkerArray
 import rospy
-import roslib
 from math import sqrt, pi, acos, atan2, cos, sin
 import tf
 import copy

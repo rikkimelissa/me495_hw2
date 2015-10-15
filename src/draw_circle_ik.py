@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import rospy
-import roslib
 from math import sqrt, pi, acos, atan2, cos, sin
 from sensor_msgs.msg import JointState
 
