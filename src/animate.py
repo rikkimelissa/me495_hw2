@@ -9,13 +9,13 @@ import copy
 
 def animate():
 
-# Set up and start node and tf listener
+    # Set up and start node and tf listener
     pub = rospy.Publisher('visualization_marker_array', MarkerArray, queue_size = 10)    
     rospy.init_node('marker_node')
     listener = tf.TransformListener()
     rate = rospy.Rate(20)
 
-# Intialize marker and marker array
+    # Initialize marker and marker array
     markerArray = MarkerArray()
     marker = Marker()
     marker.type = Marker.SPHERE
@@ -28,21 +28,20 @@ def animate():
     marker.scale.y = .05
     marker.scale.z = .05
     marker.header.frame_id = "/link1"
- #   marker.header.stamp = rospy.Time.now()
+    # marker.header.stamp = rospy.Time.now()
     marker.action = Marker.ADD
     count = 0
     MARKERS_MAX = 50
     id = 0
     	
     while not rospy.is_shutdown():
-
-# Lookup transform from base of robot to end effector
+        # Lookup transform from base of robot to end effector
         try:
             (trans,rot) = listener.lookupTransform('/link1','/link4',rospy.Time(0))
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             continue
 
-# Set the marker position to the x,y of the end effector transformation
+        # Set the marker position to the x,y of the end effector transformation
         # turn trans,rot into a point
         marker.pose.position.x = trans[0]
         marker.pose.position.y = trans[1]
@@ -50,21 +49,21 @@ def animate():
         # rospy.loginfo(trans[0])
         # rospy.loginfo(trans[1]) 
         
-# Delete first marker and add current marker to marker array
+        # Delete first marker and add current marker to marker array
         if (count > MARKERS_MAX):
             markerArray.markers.pop(0)
         
         mtmp = copy.deepcopy(marker)
         markerArray.markers.append(mtmp)
-     #   rospy.loginfo(markerArray) 
+        # rospy.loginfo(markerArray) 
 
-# Change marker array IDs to each have unique ID
+        # Change marker array IDs to each have unique ID
         id = 0
         for m in markerArray.markers:
             m.id = id
             id +=1
 
-# Publish array
+        # Publish array
         pub.publish(markerArray)
         count += 1
         rate.sleep()

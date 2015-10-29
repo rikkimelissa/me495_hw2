@@ -6,26 +6,24 @@ from sensor_msgs.msg import JointState
 
 def draw_circle_ik():
 
-# Initialize publisher node
-    pub = rospy.Publisher('joint_states', JointState, queue_size = 10)    
+    # Initialize publisher node
+    pub = rospy.Publisher('joint_states', JointState, queue_size = 10)
     rospy.init_node('ik')
     rate = rospy.Rate(50)
 
-# Initialize JointState message
+    # Initialize JointState message
     joint_state = JointState()
     joint_state.header.stamp = rospy.Time.now()
     joint_state.name = ['joint1','joint2','joint3']
     joint_state.position = [0,0,0]
     joint_state.velocity = []
     joint_state.effort = []
-	
-
+    p = rospy.get_param('~period')
+    
     while not rospy.is_shutdown():
 
         # Calculate desired x and y positions
         t = rospy.get_time()
-        p = rospy.get_param('~/controller/period')
-        rospy.loginfo(p)
         x = .5*cos(2*pi*t/p) + 1.25
         y = .5*sin(2*pi*t/p)
         
@@ -33,7 +31,7 @@ def draw_circle_ik():
         l1 = 1
         l2 = 1
         B = sqrt(x**2+y**2)
- #       rospy.loginfo(B)
+        
         q1 = atan2(y,x)
         q2 = acos((B**2+l1**2-l2**2)/(2*B*l1))
         th1 = q1-q2
@@ -42,11 +40,10 @@ def draw_circle_ik():
 		
         # Publish angles
         joint_state.header.stamp = rospy.Time.now()
-	joint_state.position = [th1,th2,0]
-#	rospy.loginfo(joint_state)
-	pub.publish(joint_state)
+        joint_state.position = [th1,th2,0]
+        pub.publish(joint_state)
         rate.sleep()
-                                                                                                                         
+
 if __name__ == "__main__":
     try:
         draw_circle_ik()
